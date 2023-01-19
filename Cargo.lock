@@ -68,6 +68,7 @@ name = "diagrammer-cli"
 version = "0.1.0"
 dependencies = [
  "confy",
+ "crossterm",
  "serde",
  "signal-hook",
  "tui",
