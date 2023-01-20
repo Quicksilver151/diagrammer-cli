@@ -3,10 +3,12 @@ use std::{io, thread, time::Duration};
 use std::process::Command;
 use thread::sleep;
 use signal_hook::{consts::SIGINT, iterator::Signals};
+use tui::style::Style;
 use tui::{
+    style::*,
     backend::CrosstermBackend,
     widgets::{Widget, Block, Borders},
-    layout::{Layout, Constraint, Direction},
+    layout::{Layout, Constraint, Direction, Alignment},
     Terminal,
 };
 
@@ -26,10 +28,17 @@ fn main() -> Result<(),std::io::Error>{
     let mut terminal = Terminal::new(backend)?;
     
     terminal.draw(|f| {
-        let size = f.size();
+        let mut size = f.size();
+        
         let block = Block::default()
             .title("Block")
-            .borders(Borders::ALL);
+            .borders(Borders::ALL)
+            // .border_style(Style { fg: Some(Color::Red), bg: None, add_modifier: Modifier::HIDDEN, sub_modifier: Modifier::RAPID_BLINK })
+            // .style(Style { fg: Some(Color::Red), bg: None, add_modifier: Modifier::HIDDEN, sub_modifier: Modifier::RAPID_BLINK })
+            .title_alignment(Alignment::Center);
+        size.width /= 2;
+        size.height /= 2;
+        // dbg!(size);
         f.render_widget(block, size);
     })?;
     
