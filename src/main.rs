@@ -36,13 +36,20 @@ fn main() -> Result<(),std::io::Error>{
             // .border_style(Style { fg: Some(Color::Red), bg: None, add_modifier: Modifier::HIDDEN, sub_modifier: Modifier::RAPID_BLINK })
             // .style(Style { fg: Some(Color::Red), bg: None, add_modifier: Modifier::HIDDEN, sub_modifier: Modifier::RAPID_BLINK })
             .title_alignment(Alignment::Center);
-        size.width /= 2;
-        size.height /= 2;
+        let border_factor = 1.5;
+        
+        let (og_width, og_height) = (size.width, size.height);
+        size.width  = (size.width as f32/border_factor as f32).round() as u16;
+        size.height = (size.height as f32/border_factor as f32).round() as u16;
+        
+        size.x = (og_width  - size.width)/2;
+        size.y = (og_height - size.height)/2;
+        
         // dbg!(size);
         f.render_widget(block, size);
     })?;
     
-    thread::sleep(Duration::from_millis(5000));
+    thread::sleep(Duration::from_millis(1000));
     
     // restore terminal
     disable_raw_mode()?;
